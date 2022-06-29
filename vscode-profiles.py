@@ -113,8 +113,8 @@ class ContextMenu:
 
 # Deletes a registry key and all its subkeys / values.
 # Source: https://stackoverflow.com/questions/38205784/python-how-to-delete-registry-key-and-subkeys-from-hklm-getting-error-5
-def reg_del_node(key0, current_key, arch_key=0, debug=0):
-    open_key = winreg.OpenKey(key0, current_key, 0, winreg.KEY_ALL_ACCESS | arch_key)
+def reg_del_node(key, current_key, arch_key=0, debug=0):
+    open_key = winreg.OpenKey(key, current_key, 0, winreg.KEY_ALL_ACCESS | arch_key)
     info_key = winreg.QueryInfoKey(open_key)
     for x in range(0, info_key[0]):
         # NOTE:: This code is to delete the key and all sub_keys.
@@ -124,7 +124,7 @@ def reg_del_node(key0, current_key, arch_key=0, debug=0):
             if debug:
                 print("Removed %s\\%s " % (current_key, sub_key))
         except OSError:
-            reg_del_node(key0, "\\".join([current_key,sub_key]), arch_key)
+            reg_del_node(key, "\\".join([current_key,sub_key]), arch_key)
             # No extra delete here since each call
             # to delete_sub_key will try to delete itself when its empty.
 
