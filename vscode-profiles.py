@@ -32,19 +32,19 @@ def main():
         configFile = json.load(jsonFile)
     
     # Clean up old keys before creating new menus (thus to avoid having old items in the mnu)
-    ContextMenu.clearMenu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"])
-    ContextMenu.clearMenu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"])
-    ContextMenu.clearMenu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"])
+    ContextMenu.clear_menu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"])
+    ContextMenu.clear_menu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"])
+    ContextMenu.clear_menu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"])
 
     # Now create the menus for every operation (opening a file, a directory and the inside of a dir)
-    ContextMenu.createMenu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
-    ContextMenu.createMenu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
-    ContextMenu.createMenu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
+    ContextMenu.create_menu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
+    ContextMenu.create_menu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
+    ContextMenu.create_menu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
 
     # Now create the profiles items in the menu
     for profile in configFile["profiles"]:
         # Right-click on file
-        ContextMenu.addItem(
+        ContextMenu.add_item(
             ContextMenu.FT_ALLFILES, 
             configFile["vscode-menu-dir"], 
             profile["name"], 
@@ -54,7 +54,7 @@ def main():
         )  
 
         # Right-click on directory
-        ContextMenu.addItem(
+        ContextMenu.add_item(
             ContextMenu.FT_DIRECTORY, 
             configFile["vscode-menu-dir"], 
             profile["name"], 
@@ -64,7 +64,7 @@ def main():
         )
 
         # Right-click on background of directory
-        ContextMenu.addItem(
+        ContextMenu.add_item(
             ContextMenu.FT_DIRECTORY_BG, 
             configFile["vscode-menu-dir"], 
             profile["name"], 
@@ -90,14 +90,14 @@ class ContextMenu:
     FT_DIRECTORY_BG = "Directory\\Background"
 
     @staticmethod
-    def createMenu(filetype, folder, title, iconPath=""):
+    def create_menu(filetype, folder, title, iconPath=""):
         with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder)) as key:
             winreg.SetValueEx(key, "MUIVerb", 0, winreg.REG_SZ, title)
             winreg.SetValueEx(key, "SubCommands", 0, winreg.REG_SZ, "")
             winreg.SetValueEx(key, "Icon", 0, winreg.REG_SZ, iconPath)
 
     @staticmethod
-    def addItem(filetype, folder, name, nameUI, iconPath, cmd):
+    def add_item(filetype, folder, name, nameUI, iconPath, cmd):
         shellKey = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}\\shell\\{name}".format(filetype=filetype, folder=folder, name=name))
         shellCmdKey = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}\\shell\\{name}\\command".format(filetype=filetype, folder=folder, name=name))
         winreg.SetValueEx(shellKey, "", 0, winreg.REG_SZ, nameUI)
@@ -105,7 +105,7 @@ class ContextMenu:
         winreg.SetValueEx(shellCmdKey, "", 0, winreg.REG_SZ, cmd)
 
     @staticmethod
-    def clearMenu(filetype, folder):
+    def clear_menu(filetype, folder):
         try:
             regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder))
         except:
