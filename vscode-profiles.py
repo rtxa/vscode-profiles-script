@@ -31,7 +31,7 @@ def main():
     with open("{path}\\vscode-profiles.json".format(path=path), "r") as jsonFile:
         configFile = json.load(jsonFile)
     
-    cmc = ContextMenuCreator()
+    cmc = ContextMenu()
 
     # Clean up old keys before creating new menus (thus to avoid having old items in the mnu)
     try:
@@ -50,7 +50,7 @@ def main():
     for profile in configFile["profiles"]:
         # Right-click on file
         cmc.addItem(
-            ContextMenuCreator.FT_ALLFILES, 
+            ContextMenu.FT_ALLFILES, 
             configFile["vscode-menu-dir"], 
             profile["name"], 
             profile["name-ui"], 
@@ -60,7 +60,7 @@ def main():
 
         # Right-click on directory
         cmc.addItem(
-            ContextMenuCreator.FT_DIRECTORY, 
+            ContextMenu.FT_DIRECTORY, 
             configFile["vscode-menu-dir"], 
             profile["name"], 
             profile["name-ui"], 
@@ -70,7 +70,7 @@ def main():
 
         # Right-click on background of directory
         cmc.addItem(
-            ContextMenuCreator.FT_DIRECTORY_BG, 
+            ContextMenu.FT_DIRECTORY_BG, 
             configFile["vscode-menu-dir"], 
             profile["name"], 
             profile["name-ui"], 
@@ -89,7 +89,7 @@ def vscodeCmd(vscodeExePath, contentType, profilesPath, profileName):
 
 
 # Class to create menus in the context menu
-class ContextMenuCreator():
+class ContextMenu():
     FT_ALLFILES = "*"
     FT_DIRECTORY = "Directory"
     FT_DIRECTORY_BG = "Directory\\Background"
