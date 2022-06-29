@@ -50,7 +50,7 @@ def main():
             profile["name"], 
             profile["name-ui"], 
             profile["icon"],
-            vscodeCmd(config_file["vscode-exe"], "%1", config_file["profiles-dir"], profile["name"])
+            vscode_cmd(config_file["vscode-exe"], "%1", config_file["profiles-dir"], profile["name"])
         )  
 
         # Right-click on directory
@@ -60,7 +60,7 @@ def main():
             profile["name"], 
             profile["name-ui"], 
             profile["icon"],
-            vscodeCmd(config_file["vscode-exe"], "%1", config_file["profiles-dir"], profile["name"])
+            vscode_cmd(config_file["vscode-exe"], "%1", config_file["profiles-dir"], profile["name"])
         )
 
         # Right-click on background of directory
@@ -70,17 +70,17 @@ def main():
             profile["name"], 
             profile["name-ui"], 
             profile["icon"],
-            vscodeCmd(config_file["vscode-exe"], "%V", config_file["profiles-dir"], profile["name"])
+            vscode_cmd(config_file["vscode-exe"], "%V", config_file["profiles-dir"], profile["name"])
         )
 
     print("Profiles have been added with success!")
 
 # This is the cmd to open vscode with a profile and a selected file
-# contentType: %1 is a file to open
-#              %V is a folder
-def vscodeCmd(vscodeExePath, contentType, profilesPath, profileName):
-    strToFormat = "\"{vscodeExePath}\" \"{contentType}\" --extensions-dir \"{profilesPath}\\{profileName}\\extensions\" --user-data-dir \"{profilesPath}\\{profileName}\\data\""
-    return strToFormat.format(vscodeExePath=vscodeExePath, contentType=contentType, profilesPath=profilesPath, profileName=profileName)
+# content_type: %1 is a file to open
+#               %V is a folder
+def vscode_cmd(vscode_exe, content_type, profiles_path, profile_name):
+    string = "\"{vscode_exe}\" \"{content_type}\" --extensions-dir \"{profiles_path}\\{profile_name}\\extensions\" --user-data-dir \"{profiles_path}\\{profile_name}\\data\""
+    return string.format(vscode_exe=vscode_exe, content_type=content_type, profiles_path=profiles_path, profile_name=profile_name)
 
 
 # Class to create menus in the context menu
