@@ -1,29 +1,29 @@
 {
-    "profilesPath": "C:\\Users\\rtxa\\.vscode\\profiles",
-    "vscodeExePath": "C:\\Users\\rtxa\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
-    "vscodeMenuIcon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-blue.ico",
-    "vscodeMenuDir": "vscode-profiles",
-    "vscodeMenuName": "Open with a Code profile",
+    "profiles-dir": "C:\\Users\\rtxa\\.vscode\\profiles",
+    "vscode-exe": "C:\\Users\\rtxa\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+    "vscode-menu-icon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-blue.ico",
+    "vscode-menu-dir": "vscode-profiles",
+    "vscode-menu-name": "Open with a Code profile",
     "profiles": [
         {
             "name": "Java",
-            "iconPath": "C:\\Users\\rtxa\\.vscode\\icons\\icon-purple.ico",
-            "nameUI": "VSCode Java"
+            "icon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-purple.ico",
+            "name-ui": "VSCode Java"
         },
         {
             "name": "Web",
-            "iconPath": "C:\\Users\\rtxa\\.vscode\\icons\\icon-darkaqua.ico",
-            "nameUI": "VSCode Web Development"
+            "icon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-darkaqua.ico",
+            "name-ui": "VSCode Web Development"
         },
         {
             "name": "C++",
-            "iconPath": "C:\\Users\\rtxa\\.vscode\\icons\\icon-red.ico",
-            "nameUI": "VSCode C++"
+            "icon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-red.ico",
+            "name-ui": "VSCode C++"
         },
         {
             "name": "Rust",
-            "iconPath": "C:\\Users\\rtxa\\.vscode\\icons\\icon-grey.ico",
-            "nameUI": "VSCode Rust"
+            "icon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-grey.ico",
+            "name-ui": "VSCode Rust"
         }
     ]
 }

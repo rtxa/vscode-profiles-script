@@ -18,11 +18,11 @@ import os
 
 def main():
     configFile = {
-        "profilesPath": "C:\\Users\\rtxa\\.vscode\\profiles",
-        "vscodeExePath": "C:\\Users\\rtxa\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
-        "vscodeMenuIcon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-blue.ico",
-        "vscodeMenuDir": "vscode-profiles",
-        "vscodeMenuName": "Open with a Code profile Test",
+        "profiles-dir": "C:\\Users\\rtxa\\.vscode\\profiles",
+        "vscode-exe": "C:\\Users\\rtxa\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+        "vscode-menu-icon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-blue.ico",
+        "vscode-menu-dir": "vscode-profiles",
+        "vscode-menu-name": "Open with a Code profile",
         "profiles": []
     }
     
@@ -35,47 +35,47 @@ def main():
 
     # Clean up old keys before creating new menus (thus to avoid having old items in the mnu)
     try:
-        regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=cmc.FT_ALLFILES, folder=configFile["vscodeMenuDir"]))
-        regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=cmc.FT_DIRECTORY, folder=configFile["vscodeMenuDir"]))
-        regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=cmc.FT_DIRECTORY_BG, folder=configFile["vscodeMenuDir"]))
+        regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=cmc.FT_ALLFILES, folder=configFile["vscode-menu-dir"]))
+        regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=cmc.FT_DIRECTORY, folder=configFile["vscode-menu-dir"]))
+        regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=cmc.FT_DIRECTORY_BG, folder=configFile["vscode-menu-dir"]))
     except Exception:
         pass
 
     # Now create the menus for every operation (opening a file, a directory and the inside of a dir)
-    cmc.createMenu(cmc.FT_ALLFILES, configFile["vscodeMenuDir"], configFile["vscodeMenuName"], configFile["vscodeMenuIcon"])
-    cmc.createMenu(cmc.FT_DIRECTORY, configFile["vscodeMenuDir"], configFile["vscodeMenuName"], configFile["vscodeMenuIcon"])
-    cmc.createMenu(cmc.FT_DIRECTORY_BG, configFile["vscodeMenuDir"], configFile["vscodeMenuName"], configFile["vscodeMenuIcon"])
+    cmc.createMenu(cmc.FT_ALLFILES, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
+    cmc.createMenu(cmc.FT_DIRECTORY, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
+    cmc.createMenu(cmc.FT_DIRECTORY_BG, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
 
     # Now create the profiles items in the menu
     for profileData in configFile["profiles"]:
         # Right-click on file
         cmc.addItem(
             ContextMenuCreator.FT_ALLFILES, 
-            configFile["vscodeMenuDir"], 
+            configFile["vscode-menu-dir"], 
             profileData["name"], 
-            profileData["nameUI"], 
-            profileData["iconPath"],
-            vscodeCmd(configFile["vscodeExePath"], "%1", configFile["profilesPath"], profileData["name"])
+            profileData["name-ui"], 
+            profileData["icon"],
+            vscodeCmd(configFile["vscode-exe"], "%1", configFile["profiles-dir"], profileData["name"])
         )  
 
         # Right-click on directory
         cmc.addItem(
             ContextMenuCreator.FT_DIRECTORY, 
-            configFile["vscodeMenuDir"], 
+            configFile["vscode-menu-dir"], 
             profileData["name"], 
-            profileData["nameUI"], 
-            profileData["iconPath"],
-            vscodeCmd(configFile["vscodeExePath"], "%1", configFile["profilesPath"], profileData["name"])
+            profileData["name-ui"], 
+            profileData["icon"],
+            vscodeCmd(configFile["vscode-exe"], "%1", configFile["profiles-dir"], profileData["name"])
         )
 
         # Right-click on background of directory
         cmc.addItem(
             ContextMenuCreator.FT_DIRECTORY_BG, 
-            configFile["vscodeMenuDir"], 
+            configFile["vscode-menu-dir"], 
             profileData["name"], 
-            profileData["nameUI"], 
-            profileData["iconPath"],
-            vscodeCmd(configFile["vscodeExePath"], "%V", configFile["profilesPath"], profileData["name"])
+            profileData["name-ui"], 
+            profileData["icon"],
+            vscodeCmd(configFile["vscode-exe"], "%V", configFile["profiles-dir"], profileData["name"])
         )
 
     print("Profiles have been added with success!")
