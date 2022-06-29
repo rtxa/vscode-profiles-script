@@ -47,35 +47,35 @@ def main():
     cmc.createMenu(cmc.FT_DIRECTORY_BG, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
 
     # Now create the profiles items in the menu
-    for profileData in configFile["profiles"]:
+    for profile in configFile["profiles"]:
         # Right-click on file
         cmc.addItem(
             ContextMenuCreator.FT_ALLFILES, 
             configFile["vscode-menu-dir"], 
-            profileData["name"], 
-            profileData["name-ui"], 
-            profileData["icon"],
-            vscodeCmd(configFile["vscode-exe"], "%1", configFile["profiles-dir"], profileData["name"])
+            profile["name"], 
+            profile["name-ui"], 
+            profile["icon"],
+            vscodeCmd(configFile["vscode-exe"], "%1", configFile["profiles-dir"], profile["name"])
         )  
 
         # Right-click on directory
         cmc.addItem(
             ContextMenuCreator.FT_DIRECTORY, 
             configFile["vscode-menu-dir"], 
-            profileData["name"], 
-            profileData["name-ui"], 
-            profileData["icon"],
-            vscodeCmd(configFile["vscode-exe"], "%1", configFile["profiles-dir"], profileData["name"])
+            profile["name"], 
+            profile["name-ui"], 
+            profile["icon"],
+            vscodeCmd(configFile["vscode-exe"], "%1", configFile["profiles-dir"], profile["name"])
         )
 
         # Right-click on background of directory
         cmc.addItem(
             ContextMenuCreator.FT_DIRECTORY_BG, 
             configFile["vscode-menu-dir"], 
-            profileData["name"], 
-            profileData["name-ui"], 
-            profileData["icon"],
-            vscodeCmd(configFile["vscode-exe"], "%V", configFile["profiles-dir"], profileData["name"])
+            profile["name"], 
+            profile["name-ui"], 
+            profile["icon"],
+            vscodeCmd(configFile["vscode-exe"], "%V", configFile["profiles-dir"], profile["name"])
         )
 
     print("Profiles have been added with success!")
