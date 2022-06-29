@@ -17,7 +17,7 @@ import json
 import os
 
 def main():
-    configFile = {
+    config_file = {
         "profiles-dir": "C:\\Users\\rtxa\\.vscode\\profiles",
         "vscode-exe": "C:\\Users\\rtxa\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
         "vscode-menu-icon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-blue.ico",
@@ -29,48 +29,48 @@ def main():
     # Load profiles config
     path = os.path.dirname(os.path.realpath(__file__))
     with open("{path}\\vscode-profiles.json".format(path=path), "r") as jsonFile:
-        configFile = json.load(jsonFile)
+        config_file = json.load(jsonFile)
     
     # Clean up old keys before creating new menus (thus to avoid having old items in the mnu)
-    ContextMenu.clear_menu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"])
-    ContextMenu.clear_menu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"])
-    ContextMenu.clear_menu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"])
+    ContextMenu.clear_menu(ContextMenu.FT_ALLFILES, config_file["vscode-menu-dir"])
+    ContextMenu.clear_menu(ContextMenu.FT_DIRECTORY, config_file["vscode-menu-dir"])
+    ContextMenu.clear_menu(ContextMenu.FT_DIRECTORY_BG, config_file["vscode-menu-dir"])
 
     # Now create the menus for every operation (opening a file, a directory and the inside of a dir)
-    ContextMenu.create_menu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
-    ContextMenu.create_menu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
-    ContextMenu.create_menu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
+    ContextMenu.create_menu(ContextMenu.FT_ALLFILES, config_file["vscode-menu-dir"], config_file["vscode-menu-name"], config_file["vscode-menu-icon"])
+    ContextMenu.create_menu(ContextMenu.FT_DIRECTORY, config_file["vscode-menu-dir"], config_file["vscode-menu-name"], config_file["vscode-menu-icon"])
+    ContextMenu.create_menu(ContextMenu.FT_DIRECTORY_BG, config_file["vscode-menu-dir"], config_file["vscode-menu-name"], config_file["vscode-menu-icon"])
 
     # Now create the profiles items in the menu
-    for profile in configFile["profiles"]:
+    for profile in config_file["profiles"]:
         # Right-click on file
         ContextMenu.add_item(
             ContextMenu.FT_ALLFILES, 
-            configFile["vscode-menu-dir"], 
+            config_file["vscode-menu-dir"], 
             profile["name"], 
             profile["name-ui"], 
             profile["icon"],
-            vscodeCmd(configFile["vscode-exe"], "%1", configFile["profiles-dir"], profile["name"])
+            vscodeCmd(config_file["vscode-exe"], "%1", config_file["profiles-dir"], profile["name"])
         )  
 
         # Right-click on directory
         ContextMenu.add_item(
             ContextMenu.FT_DIRECTORY, 
-            configFile["vscode-menu-dir"], 
+            config_file["vscode-menu-dir"], 
             profile["name"], 
             profile["name-ui"], 
             profile["icon"],
-            vscodeCmd(configFile["vscode-exe"], "%1", configFile["profiles-dir"], profile["name"])
+            vscodeCmd(config_file["vscode-exe"], "%1", config_file["profiles-dir"], profile["name"])
         )
 
         # Right-click on background of directory
         ContextMenu.add_item(
             ContextMenu.FT_DIRECTORY_BG, 
-            configFile["vscode-menu-dir"], 
+            config_file["vscode-menu-dir"], 
             profile["name"], 
             profile["name-ui"], 
             profile["icon"],
-            vscodeCmd(configFile["vscode-exe"], "%V", configFile["profiles-dir"], profile["name"])
+            vscodeCmd(config_file["vscode-exe"], "%V", config_file["profiles-dir"], profile["name"])
         )
 
     print("Profiles have been added with success!")
