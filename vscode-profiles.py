@@ -31,22 +31,20 @@ def main():
     with open("{path}\\vscode-profiles.json".format(path=path), "r") as jsonFile:
         configFile = json.load(jsonFile)
     
-    cmc = ContextMenu()
-
     # Clean up old keys before creating new menus (thus to avoid having old items in the mnu)
-    cmc.clearMenu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"])
-    cmc.clearMenu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"])
-    cmc.clearMenu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"])
+    ContextMenu.clearMenu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"])
+    ContextMenu.clearMenu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"])
+    ContextMenu.clearMenu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"])
 
     # Now create the menus for every operation (opening a file, a directory and the inside of a dir)
-    cmc.createMenu(cmc.FT_ALLFILES, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
-    cmc.createMenu(cmc.FT_DIRECTORY, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
-    cmc.createMenu(cmc.FT_DIRECTORY_BG, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
+    ContextMenu.createMenu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
+    ContextMenu.createMenu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
+    ContextMenu.createMenu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
 
     # Now create the profiles items in the menu
     for profile in configFile["profiles"]:
         # Right-click on file
-        cmc.addItem(
+        ContextMenu.addItem(
             ContextMenu.FT_ALLFILES, 
             configFile["vscode-menu-dir"], 
             profile["name"], 
@@ -56,7 +54,7 @@ def main():
         )  
 
         # Right-click on directory
-        cmc.addItem(
+        ContextMenu.addItem(
             ContextMenu.FT_DIRECTORY, 
             configFile["vscode-menu-dir"], 
             profile["name"], 
@@ -66,7 +64,7 @@ def main():
         )
 
         # Right-click on background of directory
-        cmc.addItem(
+        ContextMenu.addItem(
             ContextMenu.FT_DIRECTORY_BG, 
             configFile["vscode-menu-dir"], 
             profile["name"], 
@@ -86,26 +84,28 @@ def vscodeCmd(vscodeExePath, contentType, profilesPath, profileName):
 
 
 # Class to create menus in the context menu
-class ContextMenu():
+class ContextMenu:
     FT_ALLFILES = "*"
     FT_DIRECTORY = "Directory"
     FT_DIRECTORY_BG = "Directory\\Background"
 
-    def createMenu(self, filetype, folder, title, iconPath=""):
+    @staticmethod
+    def createMenu(filetype, folder, title, iconPath=""):
         with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder)) as key:
             winreg.SetValueEx(key, "MUIVerb", 0, winreg.REG_SZ, title)
             winreg.SetValueEx(key, "SubCommands", 0, winreg.REG_SZ, "")
             winreg.SetValueEx(key, "Icon", 0, winreg.REG_SZ, iconPath)
 
-
-    def addItem(self, filetype, folder, name, nameUI, iconPath, cmd):
+    @staticmethod
+    def addItem(filetype, folder, name, nameUI, iconPath, cmd):
         shellKey = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}\\shell\\{name}".format(filetype=filetype, folder=folder, name=name))
         shellCmdKey = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}\\shell\\{name}\\command".format(filetype=filetype, folder=folder, name=name))
         winreg.SetValueEx(shellKey, "", 0, winreg.REG_SZ, nameUI)
         winreg.SetValueEx(shellKey, "Icon", 0, winreg.REG_SZ, iconPath)
         winreg.SetValueEx(shellCmdKey, "", 0, winreg.REG_SZ, cmd)
 
-    def clearMenu(self, filetype, folder):
+    @staticmethod
+    def clearMenu(filetype, folder):
         try:
             regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder))
         except:
