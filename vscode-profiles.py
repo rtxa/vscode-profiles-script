@@ -34,12 +34,9 @@ def main():
     cmc = ContextMenu()
 
     # Clean up old keys before creating new menus (thus to avoid having old items in the mnu)
-    try:
-        regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=cmc.FT_ALLFILES, folder=configFile["vscode-menu-dir"]))
-        regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=cmc.FT_DIRECTORY, folder=configFile["vscode-menu-dir"]))
-        regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=cmc.FT_DIRECTORY_BG, folder=configFile["vscode-menu-dir"]))
-    except Exception:
-        pass
+    cmc.clearMenu(ContextMenu.FT_ALLFILES, configFile["vscode-menu-dir"])
+    cmc.clearMenu(ContextMenu.FT_DIRECTORY, configFile["vscode-menu-dir"])
+    cmc.clearMenu(ContextMenu.FT_DIRECTORY_BG, configFile["vscode-menu-dir"])
 
     # Now create the menus for every operation (opening a file, a directory and the inside of a dir)
     cmc.createMenu(cmc.FT_ALLFILES, configFile["vscode-menu-dir"], configFile["vscode-menu-name"], configFile["vscode-menu-icon"])
@@ -107,6 +104,12 @@ class ContextMenu():
         winreg.SetValueEx(shellKey, "", 0, winreg.REG_SZ, nameUI)
         winreg.SetValueEx(shellKey, "Icon", 0, winreg.REG_SZ, iconPath)
         winreg.SetValueEx(shellCmdKey, "", 0, winreg.REG_SZ, cmd)
+
+    def clearMenu(self, filetype, folder):
+        try:
+            regDelNode(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder))
+        except:
+            pass
 
 # Deletes a registry key and all its subkeys / values.
 # Source: https://stackoverflow.com/questions/38205784/python-how-to-delete-registry-key-and-subkeys-from-hklm-getting-error-5
