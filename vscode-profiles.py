@@ -116,13 +116,11 @@ class ContextMenu:
 def reg_del_node(key, current_key, arch_key=0, debug=0):
     open_key = winreg.OpenKey(key, current_key, 0, winreg.KEY_ALL_ACCESS | arch_key)
     info_key = winreg.QueryInfoKey(open_key)
+    # Delete the key and all sub_keys.
     for x in range(0, info_key[0]):
-        # NOTE:: This code is to delete the key and all sub_keys.
         sub_key = winreg.EnumKey(open_key, 0)
         try:
             winreg.DeleteKey(open_key, sub_key)
-            if debug:
-                print("Removed %s\\%s " % (current_key, sub_key))
         except OSError:
             reg_del_node(key, "\\".join([current_key,sub_key]), arch_key)
             # No extra delete here since each call
@@ -130,9 +128,6 @@ def reg_del_node(key, current_key, arch_key=0, debug=0):
 
     winreg.DeleteKey(open_key, "")
     open_key.Close()
-    if debug:
-        print("Removed %s" % current_key)
-    return
 
 if __name__ == "__main__":
     main()
