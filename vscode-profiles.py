@@ -15,6 +15,7 @@
 import winreg
 import json
 import os
+import sys
 
 def main():
     config_file = {
@@ -27,9 +28,9 @@ def main():
     }
     
     # Load profiles config
-    path = os.path.dirname(os.path.realpath(__file__))
-    with open("{path}\\vscode-profiles.json".format(path=path), "r") as jsonFile:
-        config_file = json.load(jsonFile)
+    path = "{path}\\vscode-profiles.json".format(path=get_dir_exe())
+    with open(path, "r") as file:
+        config_file = json.load(file)
     
     # Clean up old keys before creating new menus (thus to avoid having old items in the mnu)
     ContextMenu.clear_menu(ContextMenu.FT_ALLFILES, config_file["vscode-menu-dir"])
@@ -74,6 +75,10 @@ def main():
         )
 
     print("Profiles have been added with success!")
+
+# Gets the directory path of the running python script
+def get_dir_exe():
+    return os.path.dirname(os.path.realpath(sys.argv[0]))
 
 # This is the cmd to open vscode with a profile and a selected file
 # content_type: %1 is a file to open
