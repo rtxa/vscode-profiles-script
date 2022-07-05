@@ -103,15 +103,15 @@ class ContextMenu:
 
     @staticmethod
     def create_menu(filetype, folder, title, iconPath=""):
-        with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder)) as key:
+        with winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder)) as key:
             winreg.SetValueEx(key, "MUIVerb", 0, winreg.REG_SZ, title)
             winreg.SetValueEx(key, "SubCommands", 0, winreg.REG_SZ, "")
             winreg.SetValueEx(key, "Icon", 0, winreg.REG_SZ, os.path.abspath(iconPath))
 
     @staticmethod
     def add_item(filetype, folder, name, nameUI, iconPath, cmd):
-        shellKey = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}\\shell\\{name}".format(filetype=filetype, folder=folder, name=name))
-        shellCmdKey = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}\\shell\\{name}\\command".format(filetype=filetype, folder=folder, name=name))
+        shellKey = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\{filetype}\\shell\\{folder}\\shell\\{name}".format(filetype=filetype, folder=folder, name=name))
+        shellCmdKey = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\{filetype}\\shell\\{folder}\\shell\\{name}\\command".format(filetype=filetype, folder=folder, name=name))
         winreg.SetValueEx(shellKey, "", 0, winreg.REG_SZ, nameUI)
         winreg.SetValueEx(shellKey, "Icon", 0, winreg.REG_SZ, os.path.abspath(iconPath))
         winreg.SetValueEx(shellCmdKey, "", 0, winreg.REG_SZ, cmd)
@@ -119,7 +119,7 @@ class ContextMenu:
     @staticmethod
     def clear_menu(filetype, folder):
         try:
-            reg_del_node(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder))
+            reg_del_node(winreg.HKEY_CURRENT_USER, "Software\\Classes\\{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder))
         except:
             pass
 
