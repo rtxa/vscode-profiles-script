@@ -19,8 +19,8 @@ import sys
 
 def main():
     config_file = {
-        "profiles-dir": "C:\\Users\\rtxa\\.vscode\\profiles",
-        "vscode-exe": "C:\\Users\\rtxa\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+        "profiles-dir": "C:\\Users\\%USERNAME%\\.vscode\\profiles",
+        "vscode-exe": "C:\\Users\\%USERNAME%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
         "vscode-menu-icon": "icons\\icon-blue.ico",
         "vscode-menu-dir": "vscode-profiles",
         "vscode-menu-name": "Open with a Code profile",
@@ -35,6 +35,10 @@ def main():
     with open("vscode-profiles.json", "r") as file:
         config_file = json.load(file)
     
+    # Expand enviroment vars in case %USERNAME%
+    config_file["profiles-dir"] = os.path.expandvars(config_file["profiles-dir"])
+    config_file["vscode-exe"] = os.path.expandvars(config_file["vscode-exe"])
+
     # Clean up old keys before creating new menus (thus to avoid having old items in the mnu)
     ContextMenu.clear_menu(ContextMenu.FT_ALLFILES, config_file["vscode-menu-dir"])
     ContextMenu.clear_menu(ContextMenu.FT_DIRECTORY, config_file["vscode-menu-dir"])

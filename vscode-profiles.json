@@ -1,6 +1,6 @@
 {
-    "profiles-dir": "C:\\Users\\rtxa\\.vscode\\profiles",
-    "vscode-exe": "C:\\Users\\rtxa\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+    "profiles-dir": "C:\\Users\\%USERNAME%\\.vscode\\profiles",
+    "vscode-exe": "C:\\Users\\%USERNAME%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
     "vscode-menu-icon": "icons\\icon-blue.ico",
     "vscode-menu-dir": "vscode-profiles",
     "vscode-menu-name": "Open with a Code profile",
