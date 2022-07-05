@@ -21,15 +21,18 @@ def main():
     config_file = {
         "profiles-dir": "C:\\Users\\rtxa\\.vscode\\profiles",
         "vscode-exe": "C:\\Users\\rtxa\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
-        "vscode-menu-icon": "C:\\Users\\rtxa\\.vscode\\icons\\icon-blue.ico",
+        "vscode-menu-icon": "icons\\icon-blue.ico",
         "vscode-menu-dir": "vscode-profiles",
         "vscode-menu-name": "Open with a Code profile",
         "profiles": []
     }
     
+    # Change dir to where python script is located
+    # This will make easier to work with relative paths
+    os.chdir(get_dir_exe())
+
     # Load profiles config
-    path = "{path}\\vscode-profiles.json".format(path=get_dir_exe())
-    with open(path, "r") as file:
+    with open("vscode-profiles.json", "r") as file:
         config_file = json.load(file)
     
     # Clean up old keys before creating new menus (thus to avoid having old items in the mnu)
@@ -99,14 +102,14 @@ class ContextMenu:
         with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}".format(filetype=filetype, folder=folder)) as key:
             winreg.SetValueEx(key, "MUIVerb", 0, winreg.REG_SZ, title)
             winreg.SetValueEx(key, "SubCommands", 0, winreg.REG_SZ, "")
-            winreg.SetValueEx(key, "Icon", 0, winreg.REG_SZ, iconPath)
+            winreg.SetValueEx(key, "Icon", 0, winreg.REG_SZ, os.path.abspath(iconPath))
 
     @staticmethod
     def add_item(filetype, folder, name, nameUI, iconPath, cmd):
         shellKey = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}\\shell\\{name}".format(filetype=filetype, folder=folder, name=name))
         shellCmdKey = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "{filetype}\\shell\\{folder}\\shell\\{name}\\command".format(filetype=filetype, folder=folder, name=name))
         winreg.SetValueEx(shellKey, "", 0, winreg.REG_SZ, nameUI)
-        winreg.SetValueEx(shellKey, "Icon", 0, winreg.REG_SZ, iconPath)
+        winreg.SetValueEx(shellKey, "Icon", 0, winreg.REG_SZ, os.path.abspath(iconPath))
         winreg.SetValueEx(shellCmdKey, "", 0, winreg.REG_SZ, cmd)
 
     @staticmethod
