@@ -1,16 +1,9 @@
-# VS Code Profiles Menu / Add profiles to context menu
-# Author: rtxa
+# VS Code Profiles Script by rtxa
 #
 # Add profiles in the context menu for:
 # 1. Right-click on a file
 # 2. Right-click on a folder
 # 3. Right-click inside the background of a folder
-#
-# To do:
-# - Create shortcuts in the same dir (https://www.blog.pythonlibrary.org/2010/01/23/using-python-to-create-shortcuts/)
-# - Add in settings.json of every profile the name of the current profile
-# - Expand enviroment variables if present os.path.expandvars(path)
-# - Use Github Actions to build this script to .exe https://github.com/marketplace/actions/pyinstaller-windows
 
 import winreg
 import json
