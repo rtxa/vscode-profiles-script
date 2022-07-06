@@ -17,6 +17,8 @@ import json
 import os
 import sys
 
+import win32com.client
+
 def main():
     config_file = {
         "profiles-dir": "C:\\Users\\%USERNAME%\\.vscode\\profiles",
@@ -81,7 +83,28 @@ def main():
             vscode_cmd(config_file["vscode-exe"], "%V", config_file["profiles-dir"], profile["name"])
         )
 
+    for profile in config_file["profiles"]:
+        args = "--extensions-dir \"{path}\\{name}\\extensions\" --user-data-dir \"{path}\\{name}\\data\"".format(path=config_file["profiles-dir"], name=profile["name"])
+        
+        create_shortcut(
+            os.path.abspath("shortcuts"),
+            profile["name-ui"],
+            os.path.abspath(profile["icon"]),
+            config_file["vscode-exe"],
+            args
+        )
+
     print("Profiles have been added with success!")
+
+def create_shortcut(dir, name, icon, target, args):
+    path = os.path.join(dir, "{name}.lnk".format(name=name))
+
+    shell = win32com.client.Dispatch("WScript.Shell")
+    shortcut = shell.CreateShortCut(path)
+    shortcut.TargetPath = target
+    shortcut.Arguments = args
+    shortcut.IconLocation = icon
+    shortcut.save()
 
 # Gets the directory path of the running python script
 def get_dir_exe():
