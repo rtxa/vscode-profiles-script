@@ -107,9 +107,8 @@ def get_dir_exe():
 # content_type: %1 is a file to open
 #               %V is a folder
 def vscode_cmd(vscode_exe, content_type, profiles_path, profile_name):
-    string = "\"{vscode_exe}\" \"{content_type}\" --extensions-dir \"{profiles_path}\\{profile_name}\\extensions\" --user-data-dir \"{profiles_path}\\{profile_name}\\data\""
-    return string.format(vscode_exe=vscode_exe, content_type=content_type, profiles_path=profiles_path, profile_name=profile_name)
-
+    string = "\"{exe}\" \"{type}\" --extensions-dir \"{path}\\{name}\\extensions\" --user-data-dir \"{path}\\{name}\\data\""
+    return string.format(exe=vscode_exe, type=content_type, path=profiles_path, name=profile_name)
 
 # Class to create menus in the context menu
 class ContextMenu:
