@@ -1,5 +1,6 @@
 {
     "profiles-dir": "C:\\Users\\%USERNAME%\\.vscode\\profiles",
+    "shortcut-dir": "C:\\Users\\%USERNAME%\\Desktop",
     "vscode-exe": "C:\\Users\\%USERNAME%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
     "vscode-menu-icon": "icons\\icon-blue.ico",
     "vscode-menu-dir": "vscode-profiles",

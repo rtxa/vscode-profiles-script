@@ -15,6 +15,7 @@ import win32com.client
 def main():
     config_file = {
         "profiles-dir": "C:\\Users\\%USERNAME%\\.vscode\\profiles",
+        "shortcut-dir": "C:\\Users\\%USERNAME%\\Desktop",
         "vscode-exe": "C:\\Users\\%USERNAME%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
         "vscode-menu-icon": "icons\\icon-blue.ico",
         "vscode-menu-dir": "vscode-profiles",
@@ -80,7 +81,7 @@ def main():
         args = "--extensions-dir \"{path}\\{name}\\extensions\" --user-data-dir \"{path}\\{name}\\data\"".format(path=config_file["profiles-dir"], name=profile["name"])
         
         create_shortcut(
-            os.path.abspath("shortcuts"),
+            os.path.abspath(os.path.expandvars(config_file["shortcut-dir"])),
             profile["name-ui"],
             os.path.abspath(profile["icon"]),
             config_file["vscode-exe"],
