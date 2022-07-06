@@ -5,6 +5,9 @@
 # 2. Right-click on a folder
 # 3. Right-click inside the background of a folder
 
+__version__ = "0.1"
+__author__ = "rtxa"
+
 import winreg
 import json
 import os
